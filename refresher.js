@@ -21,9 +21,9 @@ let age = 13;
 
 // let iAmWearingABelt = false;
 // let iAmWearingGlasses = false;
-// if (iAmWearingABelt == true && iAmWearingGlasses == true){
+// if (iAmWearingABelt === true && iAmWearingGlasses === true){
 //     console.log('Probably not Mr. Gorton');
-// } else if (iAmWearingABelt == true && iAmWearingGlasses == false){
+// } else if (iAmWearingABelt === true && iAmWearingGlasses === false){
 //     console.log('Probably is Mr. Gorton');
 // } else{
 //     console.log('Probably just some dude');
@@ -49,24 +49,24 @@ function makePizza(size, type) {
     console.log('One ' + size + ' ' + type + ' pizza coming up!');
 }
 
-pricePizza('small');
-pricePizza('large');
+let howMuchForAPizza = pricePizza('large');
+// pricePizza('small');
+// pricePizza('large');
+
 function pricePizza(size) {
-    // let howMuchForAPizza;
-    if (size == 'small') {
-        console.log(13);
-    } else if (size == 'large') {
-        console.log(17);
+    if (size === 'large') {
+        return 13.00;
+    } else {
+        return 17.00;
     }
-    // console.log(howMuchForAPizza);
 }
 
-let y = 20;
-scope();
-console.log('y = ' + y);
-console.log('x = ' + x);
-function scope(){
-    let x = 10;
-    console.log('x = ' + x);
-    console.log('y = ' + y);
-}
+// let y = 20;
+// scope();
+// console.log('y = ' + y);
+// console.log('x = ' + x);
+// function scope(){
+//     let x = 10;
+//     console.log('x = ' + x);
+//     console.log('y = ' + y);
+// }
