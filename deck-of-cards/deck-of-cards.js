@@ -1,3 +1,20 @@
+// Array
+let suits = ['Hearts', 'Spades', 'Diamonds', 'Clubs'];
+
+for (suit in suits) {
+    countCards();
+}
+
+function countCards () {
+    console.log('Ace of ' + suits[suit]);
+    for (let i = 0; i < 9; i++) {
+        console.log((i + 2) + ' of ' + suits[suit]);
+    }
+    console.log('Jack of ' + suits[suit]);
+    console.log('Queen of ' + suits[suit]);
+    console.log('King of ' + suits[suit]);
+}
+
 // Function
 // countCards('Hearts');
 // countCards('Spades');
@@ -9,20 +26,7 @@
 //     for (let i = 0; i < 9; i++) {
 //         console.log((i + 2) + ' of ' + suit);
 //     }
-//    console.log('Jack of ' + suits[suit]);
-//    console.log('Queen of ' + suits[suit]);
-//    console.log('King of ' + suits[suit]);
+//    console.log('Jack of ' + suit);
+//    console.log('Queen of ' + suit);
+//    console.log('King of ' + suit);
 // }
-
-// Array
-let suits = ['Hearts', 'Spades', 'Diamonds', 'Clubs'];
-
-for (suit in suits) {
-    console.log('Ace of ' + suits[suit]);
-    for (let i = 0; i < 9; i++) {
-        console.log((i + 2) + ' of ' + suits[suit]);
-    }
-    console.log('Jack of ' + suits[suit]);
-    console.log('Queen of ' + suits[suit]);
-    console.log('King of ' + suits[suit]);
-}
