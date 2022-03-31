@@ -1,14 +1,14 @@
 // Array
 let suits = ['Hearts', 'Spades', 'Diamonds', 'Clubs'];
 
-for (suit in suits) {
-    countCards();
+for (let suit in suits) {
+    countCards(suit);
 }
 
-function countCards () {
+function countCards (suit) {
     console.log('Ace of ' + suits[suit]);
-    for (let i = 0; i < 9; i++) {
-        console.log((i + 2) + ' of ' + suits[suit]);
+    for (let i = 2; i <= 10; i++) {
+        console.log(i + ' of ' + suits[suit]);
     }
     console.log('Jack of ' + suits[suit]);
     console.log('Queen of ' + suits[suit]);
@@ -23,9 +23,9 @@ function countCards () {
 
 // function countCards(suit) {
 //     console.log('Ace of ' + suit);
-//     for (let i = 0; i < 9; i++) {
-//         console.log((i + 2) + ' of ' + suit);
-//     }
+//     for (let i = 2; i <= 10; i++) {
+//     console.log(i + ' of ' + suit);
+// }
 //    console.log('Jack of ' + suit);
 //    console.log('Queen of ' + suit);
 //    console.log('King of ' + suit);
