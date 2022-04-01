@@ -1,14 +1,25 @@
-let word = 'pArALLeL';
-let vowels = ['a', 'e', 'i', 'o', 'u'];
+let word = 'pArAlLeL';
+let vowels = ['a', 'e', 'i', 'o', 'u', ' '];
 
 word = word.toLowerCase().split("");
 console.log(word);
 
-function checkVowel () {
-    for (let letter of word){
-        if (vowels.includes(word[letter]) === false){
-            word[letter] += 'op'; // I don't know how to add something to the end of an array I'll find it later
-        }
+checkVowel();
+removeCommas();
 
+function checkVowel () {
+    for (let i = 0; i < word.length; i++){
+        if (vowels.includes(word[i]) === false){
+            word[i] = word[i].concat('op');
+        }
     }
+    word = word.toString();
+    console.log(word);
+}
+
+function removeCommas () {
+    for (let i = 0; i < word.length; i++){
+        word = word.replace(",", "");
+    }
+    console.log(word);
 }
