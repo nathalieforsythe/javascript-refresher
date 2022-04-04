@@ -1,26 +1,26 @@
 let word = 'pArAlLeL';
 let vowels = ['a', 'e', 'i', 'o', 'u', ' '];
 
-word = word.toLowerCase().split("");
-// console.log(word);
+let bopTalkWord = word.toLowerCase().split("");
+// console.log(bopTalkWord);
 
 checkVowel();
 removeCommas();
-console.log(word);
+console.log(bopTalkWord);
 
 function checkVowel () {
-    for (let i = 0; i < word.length; i++){
-        if (vowels.includes(word[i]) === false){
-            word[i] = word[i].concat('op');
+    for (let i = 0; i < bopTalkWord.length; i++){
+        if (!vowels.includes(bopTalkWord[i])){
+            bopTalkWord[i] = bopTalkWord[i].concat('op');
         }
     }
-    word = word.toString();
-    // console.log(word);
+    bopTalkWord = bopTalkWord.toString();
+    // console.log(bopTalkWord);
 }
 
 function removeCommas () {
-    for (let i = 0; i < word.length; i++){
-        word = word.replace(",", "");
+    for (let i = 0; i < bopTalkWord.length; i++){
+        bopTalkWord = bopTalkWord.replace(",", "");
     }
-    // console.log(word);
+    // console.log(bopTalkWord);
 }
