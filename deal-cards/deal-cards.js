@@ -21,5 +21,5 @@ for (let suit of suits){
 
 let pickedCard = Math.floor(Math.random() * 51);
 console.log(deck[pickedCard]);
-deck.splice(pickedCard);
+deck.splice(pickedCard, 1);
 console.log(deck);
