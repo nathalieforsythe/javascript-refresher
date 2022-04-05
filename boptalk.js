@@ -1,5 +1,5 @@
 let word = 'pArAlLeL';
-let vowels = ['a', 'e', 'i', 'o', 'u', ' '];
+const vowels = ['a', 'e', 'i', 'o', 'u', ' '];
 
 let bopTalkWord = word.toLowerCase().split("");
 // console.log(bopTalkWord);
