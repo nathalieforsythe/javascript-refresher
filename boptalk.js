@@ -1,7 +1,7 @@
 let word = 'pArAlLeL';
 const vowels = ['a', 'e', 'i', 'o', 'u', ' '];
 
-let bopTalkWord = word.toLowerCase().split("");
+let bopTalkWord = word.toLowerCase().split('');
 // console.log(bopTalkWord);
 
 checkVowel();
@@ -20,7 +20,7 @@ function checkVowel () {
 
 function removeCommas () {
     for (let i = 0; i < bopTalkWord.length; i++){
-        bopTalkWord = bopTalkWord.replace(",", "");
+        bopTalkWord = bopTalkWord.replace(',', '');
     }
     // console.log(bopTalkWord);
 }
