@@ -19,11 +19,11 @@ for (let suit of suits){
 }
 // console.log(deck);
 
-let pickedCard1 = Math.floor(Math.random() * 51);
+let pickedCard1 = Math.floor(Math.random() * (deck.length - 1));
 console.log(deck[pickedCard1]);
 deck.splice(pickedCard1, 1);
 
-let pickedCard2 = Math.floor(Math.random() * 50);
+let pickedCard2 = Math.floor(Math.random() * (deck.length - 1));
 console.log(deck[pickedCard2]);
 deck.splice(pickedCard2, 1);
 
