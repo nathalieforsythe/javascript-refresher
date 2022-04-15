@@ -1,5 +1,5 @@
 let playerNum = 0;
-const pigs = ['Dot', 'No Dot', 'Razorback', 'Trotter', 'Snouter', 'Leaning Jowler'];
+// const pigs = ['Dot', 'No Dot', 'Razorback', 'Trotter', 'Snouter', 'Leaning Jowler'];
 
 function handleClick(id) {
     const rollButtons = ['player0RollButton', 'player1RollButton', 'player2RollButton', 'player3RollButton'];
@@ -14,6 +14,85 @@ function handleClick(id) {
     }
 }
 
+function roll() {
+    setPig();
+    // calcHandScore();
+}
+
+function pass() {
+    changeBackground();
+}
+
+function setPig(id) {
+    let pig1text = document.getElementById('player' + playerNum + 'Pig1');
+    let pig2text = document.getElementById('player' + playerNum + 'Pig2');
+    let pig1 = probability();
+    let pig2 = probability();
+
+    pig1text.innerHTML = pig1;
+    pig2text.innerHTML = pig2;
+
+    if ((pig1 === 'Dot' && pig2 === 'No Dot') || (pig1 === 'No Dot' && pig2 === 'Dot')) {
+        pigOut();
+    }
+}
+
+function probability() {
+    if (Math.random() <= 0.349) {
+        return 'Dot';
+    } else if (Math.random() > 0.349 || Math.random() <= 0.651) {
+        return 'No Dot';
+    } else if (Math.random() > 0.651 || Math.random() <= 0.875) {
+        return 'Razorback';
+    } else if (Math.random() > 0.875 || Math.random() <= 0.963) {
+        return 'Trotter';
+    } else if (Math.random() > 0.963 || Math.random() <= 0.993) {
+        return 'Snouter';
+    } else {
+        return 'Leaning Jowler';
+    }
+}
+
+// scoring isn't working
+function calcHandScore() {
+    let handScore = 0;
+    let handScoreText = document.getElementById('player' + playerNum + 'HandScore');
+    
+    if (pig1 === 'Leaning Jowler' && pig2 === 'Leaning Jowler') {
+        handScore += 60;
+    } else if (pig1 === 'Snouter' && pig2 === 'Snouter') {
+        handScore += 40;
+    } else if (pig1 === 'Trotter' && pig2 === 'Trotter') {
+        handscore += 20;
+    } else if (pig1 === 'Razorback' && pig2 === 'Razorback') {
+        handscore += 20;
+    } else if (pig1 === 'Dot' && pig2 === 'Dot') {
+        handscore += 1;
+    } else if (pig1 === 'No Dot' && pig2 === 'No Dot') {
+        handscore += 1;
+    } else {
+        if (pig1 === 'Leaning Jowler' || pig2 == 'Leaning Jowler') {
+            handScore += 15;
+        }
+        if (pig1 === 'Snouter' || pig2 === 'Snouter') {
+            handScore += 10;
+        }
+        if (pig1 === 'Trotter' || pig2 === 'Trotter') {
+            handScore += 5;
+        }
+        if (pig1 === 'Razorback' || pig2 === 'Razorback') {
+            handScore += 5;
+        }
+    }
+    handScoreText.innerHTML = 'Score: ' + handScore;
+}
+
+function pigOut() {
+    let handScore = document.getElementById('player' + playerNum + 'HandScore');
+    handScore.innerHTML = 'PIG OUT!'
+    changeBackground();
+}
+
 function changeBackground() {
     let playerId = document.getElementById('player' + playerNum);
     playerId.setAttribute('class', 'w3-card w3-container w3-light-gray w3-round-large');
@@ -25,44 +104,4 @@ function changeBackground() {
 
     playerId = document.getElementById('player' + playerNum);
     playerId.setAttribute('class', 'w3-card w3-container w3-dark-gray w3-round-large');
-}
-
-function roll() {
-    setPig();
-    calcHandScore();
-}
-
-function pass() {
-    changeBackground();
-}
-
-function setPig(id) {
-    let pig1text = document.getElementById('player' + playerNum + 'Pig1');
-    let pig2text = document.getElementById('player' + playerNum + 'Pig2');
-
-    let pig1 = Math.floor(Math.random() * (pigs.length - 1));
-    let pig2 = Math.floor(Math.random() * (pigs.length - 1));
-
-    pig1text.innerHTML = pigs[pig1];
-    pig2text.innerHTML = pigs[pig2];
-
-    if ((pig1text.innerHTML === 'Dot' && pig2text.innerHTML === 'No Dot') || (pig1text.innerHTML === 'No Dot' && pig2text.innerHTML === 'Dot')) {
-        pigOut();
-    }
-}
-
-function pigOut() {
-    let handScore = document.getElementById('player' + playerNum + 'HandScore');
-    handScore.innerHTML = 'PIG OUT!'
-    changeBackground();
-}
-
-function calcHandScore() {
-    let score = 0;
-
-    
-}
-
-function calcTotalScore() {
-    let totalScore = 0;
 }
