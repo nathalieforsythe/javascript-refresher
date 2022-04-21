@@ -1,5 +1,7 @@
 let playerNum = 0;
 // const pigs = ['Dot', 'No Dot', 'Razorback', 'Trotter', 'Snouter', 'Leaning Jowler'];
+let pig1, pig2;
+let playerScores = [player0 = { handScore: 0, totalScore: 0 }, player1 = { handScore: 0, totalScore: 0 }, player2 = { handScore: 0, totalScore: 0 }, player3 = { handScore: 0, totalScore: 0 }];
 
 function handleClick(id) {
     const rollButtons = ['player0RollButton', 'player1RollButton', 'player2RollButton', 'player3RollButton'];
@@ -15,82 +17,84 @@ function handleClick(id) {
 }
 
 function roll() {
-    setPig();
-    // calcHandScore();
+    setPigs();
+
+    let handScoreText = document.getElementById('player' + playerNum + 'HandScore');
+    let score = calcHandScore();
+
+    for (let player in playerScores) {
+        if (playerScores[player] === playerScores[playerNum]) {
+            playerScores[player].handScore += score;
+            handScoreText.innerHTML = 'Score: ' + playerScores[player].handScore;
+        } 
+    }
+
+    score = 0;
 }
 
 function pass() {
     changeBackground();
+    // Total Score += Score;
+    // Score = 0;
 }
 
-function setPig(id) {
+function setPigs() {
     let pig1text = document.getElementById('player' + playerNum + 'Pig1');
     let pig2text = document.getElementById('player' + playerNum + 'Pig2');
-    let pig1 = probability();
-    let pig2 = probability();
+    pig1 = probability();
+    pig2 = probability();
 
     pig1text.innerHTML = pig1;
     pig2text.innerHTML = pig2;
 
-    if ((pig1 === 'Dot' && pig2 === 'No Dot') || (pig1 === 'No Dot' && pig2 === 'Dot')) {
-        pigOut();
-    }
+    pigOut();
 }
 
 function probability() {
-    if (Math.random() <= 0.349) {
+    let randomNum = Math.random();
+    if (randomNum <= 0.349) {
         return 'Dot';
-    } else if (Math.random() > 0.349 || Math.random() <= 0.651) {
+    } else if (randomNum > 0.349 && randomNum <= 0.651) {
         return 'No Dot';
-    } else if (Math.random() > 0.651 || Math.random() <= 0.875) {
+    } else if (randomNum > 0.651 && randomNum <= 0.875) {
         return 'Razorback';
-    } else if (Math.random() > 0.875 || Math.random() <= 0.963) {
+    } else if (randomNum > 0.875 && randomNum <= 0.963) {
         return 'Trotter';
-    } else if (Math.random() > 0.963 || Math.random() <= 0.993) {
+    } else if (randomNum > 0.963 && randomNum <= 0.993) {
         return 'Snouter';
     } else {
         return 'Leaning Jowler';
     }
 }
 
-// scoring isn't working
 function calcHandScore() {
-    let handScore = 0;
-    let handScoreText = document.getElementById('player' + playerNum + 'HandScore');
-    
     if (pig1 === 'Leaning Jowler' && pig2 === 'Leaning Jowler') {
-        handScore += 60;
+        return 60;
     } else if (pig1 === 'Snouter' && pig2 === 'Snouter') {
-        handScore += 40;
-    } else if (pig1 === 'Trotter' && pig2 === 'Trotter') {
-        handscore += 20;
-    } else if (pig1 === 'Razorback' && pig2 === 'Razorback') {
-        handscore += 20;
-    } else if (pig1 === 'Dot' && pig2 === 'Dot') {
-        handscore += 1;
-    } else if (pig1 === 'No Dot' && pig2 === 'No Dot') {
-        handscore += 1;
+        return 40;
+    } else if ((pig1 === 'Trotter' && pig2 === 'Trotter') || (pig1 === 'Razorback' && pig2 === 'Razorback')) {
+        return 20;
+    } else if ((pig1 === 'Dot' && pig2 === 'Dot') || (pig1 === 'No Dot' && pig2 === 'No Dot')) {
+        return 1;
     } else {
         if (pig1 === 'Leaning Jowler' || pig2 == 'Leaning Jowler') {
-            handScore += 15;
+            return 15;
         }
         if (pig1 === 'Snouter' || pig2 === 'Snouter') {
-            handScore += 10;
+            return 10;
         }
-        if (pig1 === 'Trotter' || pig2 === 'Trotter') {
-            handScore += 5;
-        }
-        if (pig1 === 'Razorback' || pig2 === 'Razorback') {
-            handScore += 5;
+        if (pig1 === 'Trotter' || pig2 === 'Trotter' || pig1 === 'Razorback' || pig2 === 'Razorback') {
+            return 5;
         }
     }
-    handScoreText.innerHTML = 'Score: ' + handScore;
 }
 
 function pigOut() {
-    let handScore = document.getElementById('player' + playerNum + 'HandScore');
-    handScore.innerHTML = 'PIG OUT!'
-    changeBackground();
+    if ((pig1 === 'Dot' && pig2 === 'No Dot') || (pig1 === 'No Dot' && pig2 === 'Dot')) {
+        let handScore = document.getElementById('player' + playerNum + 'HandScore');
+        handScore.innerHTML = 'PIG OUT!'
+        changeBackground();
+    }
 }
 
 function changeBackground() {
