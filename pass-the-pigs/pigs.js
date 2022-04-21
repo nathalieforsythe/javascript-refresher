@@ -1,5 +1,4 @@
 let playerNum = 0;
-// const pigs = ['Dot', 'No Dot', 'Razorback', 'Trotter', 'Snouter', 'Leaning Jowler'];
 let pig1, pig2;
 let playerScores = [player0 = { handScore: 0, totalScore: 0 }, player1 = { handScore: 0, totalScore: 0 }, player2 = { handScore: 0, totalScore: 0 }, player3 = { handScore: 0, totalScore: 0 }];
 
@@ -17,40 +16,27 @@ function handleClick(id) {
 }
 
 function roll() {
-    setPigs();
-
-    let handScoreText = document.getElementById('player' + playerNum + 'HandScore');
-    let score = calcHandScore();
-
-    for (let player in playerScores) {
-        if (playerScores[player] === playerScores[playerNum]) {
-            playerScores[player].handScore += score;
-            handScoreText.innerHTML = 'Score: ' + playerScores[player].handScore;
-        } 
-    }
-
-    score = 0;
+    displayPigs();
 }
 
 function pass() {
     changeBackground();
     // Total Score += Score;
-    // Score = 0;
 }
 
-function setPigs() {
+function displayPigs() {
     let pig1text = document.getElementById('player' + playerNum + 'Pig1');
     let pig2text = document.getElementById('player' + playerNum + 'Pig2');
-    pig1 = probability();
-    pig2 = probability();
+    pig1 = setPig();
+    pig2 = setPig();
 
     pig1text.innerHTML = pig1;
     pig2text.innerHTML = pig2;
 
-    pigOut();
+    displayHandScore();
 }
 
-function probability() {
+function setPig() {
     let randomNum = Math.random();
     if (randomNum <= 0.349) {
         return 'Dot';
@@ -67,6 +53,26 @@ function probability() {
     }
 }
 
+function displayHandScore() {
+    let handScoreText = document.getElementById('player' + playerNum + 'HandScore');
+    let score = calcHandScore();
+
+    for (let player in playerScores) {
+        if (playerScores[player] === playerScores[playerNum]) {
+            playerScores[player].handScore += score;
+            handScoreText.innerHTML = 'Score: ' + playerScores[player].handScore;
+        }
+    }
+
+    // pig out
+    if (score === 0) {
+        playerScores[playerNum].handScore = 0;
+        handScoreText.innerHTML = 'PIG OUT!'
+        changeBackground();
+    }
+}
+
+// only calculates score for first pig
 function calcHandScore() {
     if (pig1 === 'Leaning Jowler' && pig2 === 'Leaning Jowler') {
         return 60;
@@ -76,26 +82,18 @@ function calcHandScore() {
         return 20;
     } else if ((pig1 === 'Dot' && pig2 === 'Dot') || (pig1 === 'No Dot' && pig2 === 'No Dot')) {
         return 1;
-    } else {
-        if (pig1 === 'Leaning Jowler' || pig2 == 'Leaning Jowler') {
-            return 15;
-        }
-        if (pig1 === 'Snouter' || pig2 === 'Snouter') {
-            return 10;
-        }
-        if (pig1 === 'Trotter' || pig2 === 'Trotter' || pig1 === 'Razorback' || pig2 === 'Razorback') {
-            return 5;
-        }
+    } else if ((pig1 === 'Dot' && pig2 === 'No Dot') || (pig1 === 'No Dot' && pig2 === 'Dot')) {
+        return 0;
+    } else if (pig1 === 'Leaning Jowler' || pig2 == 'Leaning Jowler') {
+        return 15;
+    } else if (pig1 === 'Snouter' || pig2 === 'Snouter') {
+        return 10;
+    } else if (pig1 === 'Trotter' || pig2 === 'Trotter' || pig1 === 'Razorback' || pig2 === 'Razorback') {
+        return 5;
     }
 }
 
-function pigOut() {
-    if ((pig1 === 'Dot' && pig2 === 'No Dot') || (pig1 === 'No Dot' && pig2 === 'Dot')) {
-        let handScore = document.getElementById('player' + playerNum + 'HandScore');
-        handScore.innerHTML = 'PIG OUT!'
-        changeBackground();
-    }
-}
+
 
 function changeBackground() {
     let playerId = document.getElementById('player' + playerNum);
