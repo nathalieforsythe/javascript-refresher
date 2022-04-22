@@ -2,6 +2,9 @@ let playerNum = 0;
 let pig1, pig2, score;
 const playerScores = [player0 = { handScore: 0, totalScore: 0 }, player1 = { handScore: 0, totalScore: 0 }, player2 = { handScore: 0, totalScore: 0 }, player3 = { handScore: 0, totalScore: 0 }];
 
+disableAllButtons();
+enablePlayerButtons();
+
 function handleClick(id) {
     const rollButtons = ['player0RollButton', 'player1RollButton', 'player2RollButton', 'player3RollButton'];
     const passButtons = ['player0PassButton', 'player1PassButton', 'player2PassButton', 'player3PassButton'];
@@ -11,7 +14,7 @@ function handleClick(id) {
             roll();
         } else if (id === passButtons[button]) {
             pass();
-        } 
+        }
     }
 
     // don't know whether this would go in or out of the loop
@@ -26,6 +29,7 @@ function roll() {
 
 function pass() {
     displayTotalScore();
+    disablePlayerButtons(); // check this
     changeBackground();
 }
 
@@ -76,6 +80,7 @@ function displayHandScore() {
         playerScores[playerNum].totalScore -= playerScores[playerNum].handScore;
         playerScores[playerNum].handScore = 0;
         handScoreText.innerHTML = 'PIG OUT!'
+        disablePlayerButtons(); // check this
         changeBackground();
     }
 }
@@ -116,8 +121,11 @@ function changeBackground() {
     playerId.setAttribute('class', 'w3-card w3-container w3-light-gray w3-round-large');
     playerNum++;
 
+    enablePlayerButtons();
+
     if (playerNum > 3) {
-        playerNum = 0;
+        playerNum = 0;  
+        enablePlayerButtons(); // does not enable player0 buttons
     }
 
     playerId = document.getElementById('player' + playerNum);
@@ -125,24 +133,35 @@ function changeBackground() {
 }
 
 function win() {
-    if (playerScores[playerNum].totalScore >= 10) {
+    if (playerScores[playerNum].totalScore >= 100) { // increase to 100 when all of this works
         let playerId = document.getElementById('player' + playerNum);
         playerId.setAttribute('class', 'w3-card w3-container w3-yellow w3-round-large');
 
         let replayId = document.getElementById('replay');
         replayId.setAttribute('class', 'w3-row w3-container w3-show')
 
-        // disable buttons
+        disableAllButtons();
+    }
+}
+
+function enablePlayerButtons() {
+    document.getElementById('player' + playerNum + 'RollButton').disabled = false;
+    document.getElementById('player' + playerNum + 'PassButton').disabled = false;
+}
+
+function disablePlayerButtons() {
+    document.getElementById('player' + playerNum + 'RollButton').disabled = true;
+    document.getElementById('player' + playerNum + 'PassButton').disabled = true;
+}
+
+function disableAllButtons() {
+    for (let i = 0; i < 4; i++) {
+        document.getElementById('player' + i + 'RollButton').disabled = true;
+        console.log(i + ' disabled roll')
+        document.getElementById('player' + i + 'PassButton').disabled = true;
     }
 }
 
 function replay() {
     console.log('reset')
 }
-
-// To do: 
-// 3. disable buttons
-// 4. reset
-// 5. images
-// 6. player 4
-// 7. publish
