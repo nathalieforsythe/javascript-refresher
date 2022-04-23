@@ -1,6 +1,10 @@
 let playerNum = 0;
 let pig1, pig2, score;
-const playerScores = [player0 = { handScore: 0, totalScore: 0 }, player1 = { handScore: 0, totalScore: 0 }, player2 = { handScore: 0, totalScore: 0 }, player3 = { handScore: 0, totalScore: 0 }];
+const playerScores = [player0 = { handScore: 0, totalScore: 0 },
+player1 = { handScore: 0, totalScore: 0 },
+player2 = { handScore: 0, totalScore: 0 },
+player3 = { handScore: 0, totalScore: 0 },
+player4 = { handScore: 0, totalScore: 0 }];
 
 disableAllButtons();
 enablePlayerButtons();
@@ -14,23 +18,25 @@ function handleClick(id) {
             roll();
         } else if (id === passButtons[button]) {
             pass();
+        } else if (id === 'replayButton') {
+            location.reload(); // https://www.w3schools.com/jsref/met_loc_reload.asp
         }
     }
-
-    // don't know whether this would go in or out of the loop
-    // if id === replay -> replay()
 }
 
 function roll() {
     displayPigs();
     displayHandScore();
+    // computerPlayer();
     win();
 }
 
 function pass() {
     displayTotalScore();
-    disablePlayerButtons(); // check this
+    disablePlayerButtons();
     changeBackground();
+    enablePlayerButtons();
+    computerPlayer();
 }
 
 function displayPigs() {
@@ -80,8 +86,9 @@ function displayHandScore() {
         playerScores[playerNum].totalScore -= playerScores[playerNum].handScore;
         playerScores[playerNum].handScore = 0;
         handScoreText.innerHTML = 'PIG OUT!'
-        disablePlayerButtons(); // check this
+        disablePlayerButtons();
         changeBackground();
+        enablePlayerButtons()
     }
 }
 
@@ -121,11 +128,8 @@ function changeBackground() {
     playerId.setAttribute('class', 'w3-card w3-container w3-light-gray w3-round-large');
     playerNum++;
 
-    enablePlayerButtons();
-
-    if (playerNum > 3) {
-        playerNum = 0;  
-        enablePlayerButtons(); // does not enable player0 buttons
+    if (playerNum > 4) { // if computer player doesn't work switch back to 3
+        playerNum = 0;
     }
 
     playerId = document.getElementById('player' + playerNum);
@@ -133,7 +137,7 @@ function changeBackground() {
 }
 
 function win() {
-    if (playerScores[playerNum].totalScore >= 100) { // increase to 100 when all of this works
+    if (playerScores[playerNum].totalScore >= 100) {
         let playerId = document.getElementById('player' + playerNum);
         playerId.setAttribute('class', 'w3-card w3-container w3-yellow w3-round-large');
 
@@ -144,6 +148,7 @@ function win() {
     }
 }
 
+// https://www.w3schools.com/jsref/prop_pushbutton_disabled.asp
 function enablePlayerButtons() {
     document.getElementById('player' + playerNum + 'RollButton').disabled = false;
     document.getElementById('player' + playerNum + 'PassButton').disabled = false;
@@ -155,13 +160,21 @@ function disablePlayerButtons() {
 }
 
 function disableAllButtons() {
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 5; i++) { // if computer player doesn't work switch back to 4
         document.getElementById('player' + i + 'RollButton').disabled = true;
-        console.log(i + ' disabled roll')
         document.getElementById('player' + i + 'PassButton').disabled = true;
     }
 }
 
-function replay() {
-    console.log('reset')
+function computerPlayer() {
+    if (playerNum === 4) {
+        displayPigs();
+        displayHandScore();
+
+        while (player4.handScore <= 25) {
+            setTimeout(displayPigs, 1000);
+            setTimeout(displayHandScore, 1000);
+        }
+        // pass();
+    }
 }

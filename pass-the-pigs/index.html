@@ -120,6 +120,35 @@
     </div>
     <!-- end Bottom row -->
 
+    <!-- computer player -->
+    <div class="w3-row w3-container">
+
+      <!-- Player 4 -->
+      <div class="w3-half w3-container w3-margin-bottom">
+        <div id="player4" class="w3-card w3-container w3-light-gray w3-round-large">
+          <h2 id="player4Heading">Player 4</h2>
+          <div class="w3-row">
+            <div class="w3-half">
+              <p id="player4HandScore">Score:</p>
+            </div>
+            <div class="w3-half">
+              <p id="player4TotalScore">Total score:</p>
+            </div>
+          </div>
+          <div><span id="player4Pig1" class="w3-tag w3-xxlarge w3-pale-red w3-margin w3-round-large">/</span><span
+              id="player4Pig2" class="w3-tag w3-xxlarge w3-pale-red w3-margin w3-round-large">/</span></div>
+          <div class="w3-container w3-margin-bottom">
+            <button id="player4RollButton" class="w3-button w3-round-large w3-green">Roll</button> 
+            <!-- onclick="handleClick(this.id)" -->
+            <button id="player4PassButton" class="w3-button w3-round-large w3-red">Pass</button> 
+            <!-- onclick="handleClick(this.id)" -->
+          </div>
+        </div>
+      </div>
+      <!-- end Player 4 -->
+
+    </div>
+
     <!-- Replay button -->
     <div id="replay" class="w3-row w3-container w3-hide">
       <button id='replayButton' class="w3-button w3-block w3-teal" onclick="handleClick(this.id)">Replay</button>
