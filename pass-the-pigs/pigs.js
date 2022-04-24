@@ -27,7 +27,7 @@ function handleClick(id) {
 function roll() {
     displayPigs();
     displayHandScore();
-    // computerPlayer();
+    computerPlayer();
     win();
 }
 
@@ -76,6 +76,8 @@ function displayHandScore() {
         let pig2Score = calcHandScore(pig2);
         score = pig1Score + pig2Score;
     }
+
+    console.log(pig1, pig2);
 
     playerScores[playerNum].handScore += score;
     playerScores[playerNum].totalScore += score;
@@ -168,13 +170,21 @@ function disableAllButtons() {
 
 function computerPlayer() {
     if (playerNum === 4) {
-        displayPigs();
-        displayHandScore();
-
-        while (player4.handScore <= 25) {
-            setTimeout(displayPigs, 1000);
-            setTimeout(displayHandScore, 1000);
+        if (player4.totalScore <= 50) {
+            while (player4.handScore < 25) {
+                // setTimeout(displayPigs, 1000);
+                // setTimeout(displayHandScore, 1000);
+                displayPigs();
+                displayHandScore();
+            }
+        } else {
+            while (player4.handScore <= 15) {
+                // setTimeout(displayPigs, 1000);
+                // setTimeout(displayHandScore, 1000);
+                displayPigs();
+                displayHandScore();
+            }
         }
-        // pass();
+        pass();
     }
 }
