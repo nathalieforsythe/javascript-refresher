@@ -1,10 +1,6 @@
 let playerNum = 0;
-let pig1, pig2, score, handScoreText;
-const playerScores = [player0 = { handScore: 0, totalScore: 0 },
-player1 = { handScore: 0, totalScore: 0 },
-player2 = { handScore: 0, totalScore: 0 },
-player3 = { handScore: 0, totalScore: 0 },
-player4 = { handScore: 0, totalScore: 0 }];
+let pig1, pig2, score;
+const playerScores = [player0 = { handScore: 0, totalScore: 0 }, player1 = { handScore: 0, totalScore: 0 }, player2 = { handScore: 0, totalScore: 0 }, player3 = { handScore: 0, totalScore: 0 }, player4 = { handScore: 0, totalScore: 0 }];
 
 disableAllButtons();
 enablePlayerButtons();
@@ -29,9 +25,6 @@ function handleClick(id) {
 function roll() {
     displayPigs();
     displayHandScore();
-
-    // computerPlayer();
-
     win();
 }
 
@@ -40,8 +33,6 @@ function pass() {
     disablePlayerButtons();
     changeBackground();
     enablePlayerButtons();
-
-    // computerPlayer();
 }
 
 function displayPigs() {
@@ -50,8 +41,10 @@ function displayPigs() {
     pig1 = setPig();
     pig2 = setPig();
 
-    pig1text.innerHTML = pig1;
-    pig2text.innerHTML = pig2;
+    pig1text.innerHTML = pig1 + ' ';
+    pig2text.innerHTML = pig2 + ' ';
+    displayImages(pig1, pig1text);
+    displayImages(pig2, pig2text);
 }
 
 function setPig() {
@@ -69,6 +62,28 @@ function setPig() {
     } else {
         return 'Leaning Jowler';
     }
+}
+
+// https://moonbooks.org/Articles/How-to-add-an-image-in-a-HTML-page-using-javascript-/
+// https://www.w3schools.com/jsref/dom_obj_image.asp
+function displayImages(pig, position) {
+    let img = document.createElement('img');
+    if (pig === 'Dot') {
+        img.src = 'pig-pics/dot.png';
+    } else if (pig === 'No Dot') {
+        img.src = 'pig-pics/no-dot.jpeg';
+    } else if (pig === 'Razorback') {
+        img.src = 'pig-pics/razorback.png';
+    } else if (pig === 'Trotter') {
+        img.src = 'pig-pics/trotter.png';
+    } else if (pig === 'Snouter') {
+        img.src = 'pig-pics/snouter.png';
+    } else {
+        img.src = 'pig-pics/leaning-jowler.png';
+    }
+    img.width = 100;
+    img.height = 100;
+    position.appendChild(img);
 }
 
 function displayHandScore() {
@@ -222,3 +237,7 @@ function computerPlayer() {
         setTimeout(pass, 1000);
     }
 }
+
+// to do: 
+// 1. images
+// 2. publish
