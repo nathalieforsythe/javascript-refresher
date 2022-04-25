@@ -191,6 +191,7 @@ function disableAllButtons() {
     }
 }
 
+// I couldn't figure out how to get it to wait in between rolls, so check the console to see each roll
 function computerPlayer() {
     if (playerNum === 4) {
         if (player4.totalScore <= 25) {
@@ -237,7 +238,3 @@ function computerPlayer() {
         setTimeout(pass, 1000);
     }
 }
-
-// to do: 
-// 1. images
-// 2. publish
