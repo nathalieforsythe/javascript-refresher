@@ -1,5 +1,5 @@
 let playerNum = 0;
-let pig1, pig2, score;
+let pig1, pig2, score, handScoreText;
 const playerScores = [player0 = { handScore: 0, totalScore: 0 },
 player1 = { handScore: 0, totalScore: 0 },
 player2 = { handScore: 0, totalScore: 0 },
@@ -22,12 +22,16 @@ function handleClick(id) {
             location.reload(); // https://www.w3schools.com/jsref/met_loc_reload.asp
         }
     }
+
+    computerPlayer();
 }
 
 function roll() {
     displayPigs();
     displayHandScore();
-    computerPlayer();
+
+    // computerPlayer();
+
     win();
 }
 
@@ -36,7 +40,8 @@ function pass() {
     disablePlayerButtons();
     changeBackground();
     enablePlayerButtons();
-    computerPlayer();
+
+    // computerPlayer();
 }
 
 function displayPigs() {
@@ -76,21 +81,12 @@ function displayHandScore() {
         let pig2Score = calcHandScore(pig2);
         score = pig1Score + pig2Score;
     }
-
-    console.log(pig1, pig2);
-
     playerScores[playerNum].handScore += score;
     playerScores[playerNum].totalScore += score;
     handScoreText.innerHTML = 'Score: ' + playerScores[playerNum].handScore;
 
-    // pig out
-    if (score === 0) {
-        playerScores[playerNum].totalScore -= playerScores[playerNum].handScore;
-        playerScores[playerNum].handScore = 0;
-        handScoreText.innerHTML = 'PIG OUT!'
-        disablePlayerButtons();
-        changeBackground();
-        enablePlayerButtons()
+    if (playerNum !== 4) {
+        pigOut();
     }
 }
 
@@ -122,7 +118,19 @@ function displayTotalScore() {
 
     playerScores[playerNum].handScore = 0;
     totalScoreText.innerHTML = 'Total score: ' + playerScores[playerNum].totalScore;
-    handScoreText.innerHTML = 'Score: ' + playerScores[playerNum].handScore; // replace w/ 0 when done testing
+    handScoreText.innerHTML = 'Score: 0';
+}
+
+function pigOut() {
+    if (score === 0) {
+        let handScoreText = document.getElementById('player' + playerNum + 'HandScore');
+        playerScores[playerNum].totalScore -= playerScores[playerNum].handScore;
+        playerScores[playerNum].handScore = 0;
+        handScoreText.innerHTML = 'PIG OUT!'
+        disablePlayerButtons();
+        changeBackground();
+        enablePlayerButtons();
+    }
 }
 
 function changeBackground() {
@@ -130,7 +138,7 @@ function changeBackground() {
     playerId.setAttribute('class', 'w3-card w3-container w3-light-gray w3-round-large');
     playerNum++;
 
-    if (playerNum > 4) { // if computer player doesn't work switch back to 3
+    if (playerNum > 4) {
         playerNum = 0;
     }
 
@@ -162,7 +170,7 @@ function disablePlayerButtons() {
 }
 
 function disableAllButtons() {
-    for (let i = 0; i < 5; i++) { // if computer player doesn't work switch back to 4
+    for (let i = 0; i < 5; i++) {
         document.getElementById('player' + i + 'RollButton').disabled = true;
         document.getElementById('player' + i + 'PassButton').disabled = true;
     }
@@ -170,21 +178,47 @@ function disableAllButtons() {
 
 function computerPlayer() {
     if (playerNum === 4) {
-        if (player4.totalScore <= 50) {
-            while (player4.handScore < 25) {
-                // setTimeout(displayPigs, 1000);
-                // setTimeout(displayHandScore, 1000);
+        if (player4.totalScore <= 25) {
+            while (player4.handScore < 15) {
                 displayPigs();
                 displayHandScore();
+                console.log(pig1, pig2);
+
+                setTimeout(pigOut, 1000);
+                if (player4.handScore === 0) {
+                    console.log('turn finished');
+                    return; // stops the loops from resetting if player4 pigs out
+                }
+            }
+        } else if (player4.totalScore <= 75 || player4.totalScore > 25) {
+            while (player4.handScore < 25) {
+                displayPigs();
+                displayHandScore();
+                console.log(pig1, pig2);
+
+                setTimeout(pigOut, 1000);
+                if (player4.handScore === 0) {
+                    console.log('turn finished');
+                    return;
+                }
             }
         } else {
-            while (player4.handScore <= 15) {
-                // setTimeout(displayPigs, 1000);
-                // setTimeout(displayHandScore, 1000);
+            while (player4.handScore < 20) {
                 displayPigs();
                 displayHandScore();
+                console.log(pig1, pig2);
+
+                setTimeout(pigOut, 1000);
+                if (player4.handScore === 0) {
+                    console.log('turn finished');
+                    return;
+                } else if (player4.totalScore >= 100) {
+                    win();
+                    return; // stops the game from continuing after player4 wins
+                }
             }
         }
-        pass();
+        console.log('turn finished');
+        setTimeout(pass, 1000);
     }
 }
