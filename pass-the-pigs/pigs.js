@@ -6,17 +6,12 @@ disableAllButtons();
 enablePlayerButtons();
 
 function handleClick(id) {
-    const rollButtons = ['player0RollButton', 'player1RollButton', 'player2RollButton', 'player3RollButton'];
-    const passButtons = ['player0PassButton', 'player1PassButton', 'player2PassButton', 'player3PassButton'];
-
-    for (let button in rollButtons) {
-        if (id === rollButtons[button]) {
-            roll();
-        } else if (id === passButtons[button]) {
-            pass();
-        } else if (id === 'replayButton') {
-            location.reload(); // https://www.w3schools.com/jsref/met_loc_reload.asp
-        }
+    if (id === ('player' + playerNum + 'RollButton')) {
+        roll();
+    } else if (id === ('player' + playerNum + 'PassButton')) {
+        pass();
+    } else if (id === 'replayButton') {
+        location.reload(); // https://www.w3schools.com/jsref/met_loc_reload.asp
     }
 
     computerPlayer();
@@ -31,7 +26,7 @@ function roll() {
 function pass() {
     displayTotalScore();
     disablePlayerButtons();
-    changeBackground();
+    switchPlayer();
     enablePlayerButtons();
 }
 
@@ -43,8 +38,8 @@ function displayPigs() {
 
     pig1text.innerHTML = pig1 + ' ';
     pig2text.innerHTML = pig2 + ' ';
-    displayImages(pig1, pig1text);
-    displayImages(pig2, pig2text);
+    setImage(pig1, pig1text);
+    setImage(pig2, pig2text);
 }
 
 function setPig() {
@@ -66,7 +61,7 @@ function setPig() {
 
 // https://moonbooks.org/Articles/How-to-add-an-image-in-a-HTML-page-using-javascript-/
 // https://www.w3schools.com/jsref/dom_obj_image.asp
-function displayImages(pig, position) {
+function setImage(pig, position) {
     let img = document.createElement('img');
     if (pig === 'Dot') {
         img.src = 'pig-pics/dot.png';
@@ -89,13 +84,7 @@ function displayImages(pig, position) {
 function displayHandScore() {
     let handScoreText = document.getElementById('player' + playerNum + 'HandScore');
 
-    if (pig1 === pig2) {
-        score = calcHandScore();
-    } else {
-        let pig1Score = calcHandScore(pig1);
-        let pig2Score = calcHandScore(pig2);
-        score = pig1Score + pig2Score;
-    }
+    calcHandScore();
     playerScores[playerNum].handScore += score;
     playerScores[playerNum].totalScore += score;
     handScoreText.innerHTML = 'Score: ' + playerScores[playerNum].handScore;
@@ -105,7 +94,17 @@ function displayHandScore() {
     }
 }
 
-function calcHandScore(pig) {
+function calcHandScore(){
+    if (pig1 === pig2) {
+        score = scorePigs();
+    } else {
+        let pig1Score = scorePigs(pig1);
+        let pig2Score = scorePigs(pig2);
+        score = pig1Score + pig2Score;
+    }
+}
+
+function scorePigs(pig) {
     if (pig1 === 'Leaning Jowler' && pig2 === 'Leaning Jowler') {
         return 60;
     } else if (pig1 === 'Snouter' && pig2 === 'Snouter') {
@@ -127,6 +126,18 @@ function calcHandScore(pig) {
     }
 }
 
+function pigOut() {
+    if (score === 0) {
+        let handScoreText = document.getElementById('player' + playerNum + 'HandScore');
+        playerScores[playerNum].totalScore -= playerScores[playerNum].handScore;
+        playerScores[playerNum].handScore = 0;
+        handScoreText.innerHTML = 'PIG OUT!'
+        disablePlayerButtons();
+        switchPlayer();
+        enablePlayerButtons();
+    }
+}
+
 function displayTotalScore() {
     let totalScoreText = document.getElementById('player' + playerNum + 'TotalScore');
     let handScoreText = document.getElementById('player' + playerNum + 'HandScore');
@@ -136,19 +147,7 @@ function displayTotalScore() {
     handScoreText.innerHTML = 'Score: 0';
 }
 
-function pigOut() {
-    if (score === 0) {
-        let handScoreText = document.getElementById('player' + playerNum + 'HandScore');
-        playerScores[playerNum].totalScore -= playerScores[playerNum].handScore;
-        playerScores[playerNum].handScore = 0;
-        handScoreText.innerHTML = 'PIG OUT!'
-        disablePlayerButtons();
-        changeBackground();
-        enablePlayerButtons();
-    }
-}
-
-function changeBackground() {
+function switchPlayer() {
     let playerId = document.getElementById('player' + playerNum);
     playerId.setAttribute('class', 'w3-card w3-container w3-light-gray w3-round-large');
     playerNum++;
@@ -194,47 +193,21 @@ function disableAllButtons() {
 // I couldn't figure out how to get it to wait in between rolls, so check the console to see each roll
 function computerPlayer() {
     if (playerNum === 4) {
-        if (player4.totalScore <= 25) {
-            while (player4.handScore < 15) {
-                displayPigs();
-                displayHandScore();
-                console.log(pig1, pig2);
+        while (player4.handScore < 20) {
+            displayPigs();
+            displayHandScore();
+            console.log(pig1, pig2);
 
-                setTimeout(pigOut, 1000);
-                if (player4.handScore === 0) {
-                    console.log('turn finished');
-                    return; // stops the loops from resetting if player4 pigs out
-                }
-            }
-        } else if (player4.totalScore <= 75 || player4.totalScore > 25) {
-            while (player4.handScore < 25) {
-                displayPigs();
-                displayHandScore();
-                console.log(pig1, pig2);
-
-                setTimeout(pigOut, 1000);
-                if (player4.handScore === 0) {
-                    console.log('turn finished');
-                    return;
-                }
-            }
-        } else {
-            while (player4.handScore < 20) {
-                displayPigs();
-                displayHandScore();
-                console.log(pig1, pig2);
-
-                setTimeout(pigOut, 1000);
-                if (player4.handScore === 0) {
-                    console.log('turn finished');
-                    return;
-                } else if (player4.totalScore >= 100) {
-                    win();
-                    return; // stops the game from continuing after player4 wins
-                }
+            pigOut();
+            if (player4.handScore === 0) {
+                console.log('turn finished');
+                return; // stops the loops from resetting if player4 pigs out
+            } else if (player4.totalScore >= 100) {
+                win();
+                return; // stops the game from continuing after player4 wins
             }
         }
         console.log('turn finished');
-        setTimeout(pass, 1000);
+        pass();
     }
 }
